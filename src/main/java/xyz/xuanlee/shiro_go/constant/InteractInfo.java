@@ -38,6 +38,7 @@ public class InteractInfo {
         GENERAL_ERROR_INFO.put("-1", "服务器开小差了，操作失败");
         GENERAL_ERROR_INFO.put("-2", "请先登录再进行操作");
         GENERAL_ERROR_INFO.put("-3", "参数类型不符，请输入%s");
+        GENERAL_ERROR_INFO.put("-4", "参数转换失败，请检查前端处理过程");
 
         // 数据修改服务返回的操作码
         GENERAL_MODIFY_INFO.put("100", "创建%s失败，原因是：%s");
