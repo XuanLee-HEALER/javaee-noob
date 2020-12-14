@@ -29,6 +29,14 @@ public interface UserManageService {
     OpResponseInfo retrieveUserInfoByLoginTime(String startTime, String endTime);
 
     /**
+     * 根据用户的id和用户名来查询符合条件的用户信息
+     * @param id 用户id
+     * @param username 用户名
+     * @return OpResponseInfo 用户数据信息的JSON格式或错误信息
+     */
+    OpResponseInfo retrieveUserInfoByIdAndUsername(String id, String username);
+
+    /**
      * 根据用户的id来修改用户名
      * 登录后操作
      * @param id 用户id

@@ -1,7 +1,7 @@
 function loginSuccess(data) {
     if (data.resp_code === "1") {
         alert("登录成功，点击确定跳转到主页");
-        window.location.href = "/shiro_go_war_exploded/user/user_info.html"
+        window.location.href = "/shiro_go_war_exploded/html/user/user_info.html"
     } else {
         alert(data.resp_message);
     }
@@ -40,6 +40,23 @@ function allUserList(data) {
                 modify_username.push(id);
             }
         });
+    } else {
+        alert(data.resp_message);
+    }
+}
+
+function queryUserByIdAndUsername(data) {
+    if (data.resp_code === "1") {
+        $("#userList>tbody>tr").remove();
+        var userList = JSON.parse(data.resp_message).user_list;
+        userList.forEach(ele => {
+            $("#userList>tbody").append("<tr id='" + ele.username + "'></tr>");
+            $("#" + ele.username).append("<td>" + ele.username + "</td>")
+                .append("<td>" + ele.password + "</td>")
+                .append("<td>" + ele.department_name + "</td>");
+        });
+    } else {
+        alert(data.resp_message);
     }
 }
 
@@ -47,5 +64,7 @@ function createUser(data) {
     if (data.resp_code === "1") {
         $("#userList>tbody>tr").remove();
         sendWithGet("/shiro_go_war_exploded/user/userList", null, allUserList, errHandler);
+    } else {
+        alert(data.resp_message);
     }
 }

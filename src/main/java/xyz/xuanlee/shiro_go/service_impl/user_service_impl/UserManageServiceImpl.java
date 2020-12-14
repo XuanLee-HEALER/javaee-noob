@@ -134,6 +134,34 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
+    public OpResponseInfo retrieveUserInfoByIdAndUsername(String id, String username) {
+        String code;
+
+        try {
+            Constructor<User> userConstructor =
+                    User.class.getConstructor(String.class, String.class, String.class);
+            List<User> users = JDBCUtil.executeQueryBatchStatement(userConstructor,
+                    UserSQL.QUERY_USER_BY_ID_AND_USERNAME, "%" + id + "%", "%" + username + "%");
+            JSONArray usersInfo = new JSONArray();
+            for (User user: users) {
+                JSONObject tmpObject = new JSONObject();
+                tmpObject.put("username", user.getUsername());
+                tmpObject.put("password", user.getPassword());
+                tmpObject.put("department_name", user.getBelongDepartment().getDepartmentName());
+                usersInfo.add(tmpObject);
+            }
+            code = "1";
+            JSONObject json = CommonUtil.groupRespData(code, InteractInfo.GENERAL_MODIFY_INFO.get(code));
+            json.put("user_list", usersInfo);
+            return new OpResponseInfo(code, json.toJSONString());
+        } catch (NoSuchMethodException e) {
+            code = "-1";
+            e.printStackTrace();
+            return new OpResponseInfo(code, InteractInfo.GENERAL_ERROR_INFO.get(code));
+        }
+    }
+
+    @Override
     public OpResponseInfo modifyUsernameById(Long id, String newUsername) {
         String code;
 

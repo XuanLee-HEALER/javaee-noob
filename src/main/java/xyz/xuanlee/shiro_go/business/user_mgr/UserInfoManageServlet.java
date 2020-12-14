@@ -38,6 +38,9 @@ public class UserInfoManageServlet extends HttpServlet {
                 case "selectByDate":
                     doGetSelectByDate(req, resp);
                     break;
+                case "selectByIdAndUsername":
+                    doGetSelectByIdAndUsername(req, resp);
+                    break;
                 case "userList":
                     doGetUserList(req, resp);
                     break;
@@ -96,6 +99,25 @@ public class UserInfoManageServlet extends HttpServlet {
         JSONObject json;
 
         OpResponseInfo info = userManageService.retrieveUserInfoByLoginTime(startTime, endTime);
+
+        String code = info.getInfoCode();
+        String message = info.getInfo();
+        json = CommonUtil.groupRespData(code, message);
+
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("json/application");
+        PrintWriter printWriter = resp.getWriter();
+
+        printWriter.println(json.toJSONString());
+    }
+
+    private void doGetSelectByIdAndUsername(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String id = req.getParameter("id");
+        String username = req.getParameter("username");
+
+        JSONObject json;
+
+        OpResponseInfo info = userManageService.retrieveUserInfoByIdAndUsername(id, username);
 
         String code = info.getInfoCode();
         String message = info.getInfo();

@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col">
         </div>
-        <div class="col-6">
+        <div class="col-8">
             <div class="btn-group" role="group" aria-label="Basic outlined example">
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#createUser">新增</button>
                 <div class="modal fade" id="createUser" tabindex="-1" aria-labelledby="createUserLabel" aria-hidden="true">
@@ -91,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+                <button type="button" class="btn btn-outline-primary" id="queryUser">查询</button>
             </div>
         </div>
         <div class="col">
@@ -99,7 +100,25 @@
     <div class="row">
         <div class="col">
         </div>
-        <div class="col-6">
+        <div class="col-8">
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" id="queryUserId" placeholder="用户ID">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" id="queryUsername" placeholder="用户名">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8">
             <table id="userList" class="table table-bordered table-hover">
                 <thead class="table-dark">
                 <tr>
@@ -116,7 +135,6 @@
         </div>
     </div>
 </div>
-
 <script src="../../js/jquery-3.5.1.js"></script>
 <script src="../../js/data_go.js"></script>
 <script src="../../js/callback.js"></script>

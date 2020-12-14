@@ -11,6 +11,10 @@ public class UserSQL {
             "select count(*) as qty from t_user where u_name=?";
     public static final String QUERY_DEPARTMENT_IS_EXIST =
             "select count(*) as qty from t_department where id=?";
+    public static final String QUERY_USER_BY_ID_AND_USERNAME =
+            "select t1.u_name, t1.u_pswd, t2.d_name from t_user t1 left join\n" +
+                    "t_department t2 on t1.d_id=t2.id\n" +
+                    "where convert(t1.id, char) like ? and t1.u_name like ?";
     public static final String QUERY_USERS_INFO =
             "select t1.u_name, t1.u_pswd, t2.d_name\n" +
                     "from t_user t1\n" +
