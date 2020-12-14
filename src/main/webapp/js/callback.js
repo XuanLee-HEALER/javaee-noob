@@ -68,3 +68,21 @@ function createUser(data) {
         alert(data.resp_message);
     }
 }
+
+function deleteUsers(data) {
+    if (data.resp_code === "1") {
+        $("#userList>tbody>tr").remove();
+        sendWithGet("/shiro_go_war_exploded/user/userList", null, allUserList, errHandler);
+    } else {
+        alert(data.resp_message);
+    }
+}
+
+function updateUser(data) {
+    if (data.resp_code === "1") {
+        $("#userList>tbody>tr").remove();
+        sendWithGet("/shiro_go_war_exploded/user/userList", null, allUserList, errHandler);
+    } else {
+        alert(data.resp_message);
+    }
+}

@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#updateUser">修改</button>
+                <button type="button" class="btn btn-outline-primary" id="updateUserBtn" data-bs-toggle="modal" data-bs-target="#updateUser">修改</button>
                 <div class="modal fade" id="updateUser" tabindex="-1" aria-labelledby="updateUserLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -63,12 +63,12 @@
                                 <h5 class="modal-title" id="updateUserLabel">修改用户信息</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                ...
+                            <div class="modal-body" id="updateUserBody">
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <button type="button" class="btn btn-primary">保存</button>
+                                <button type="button" class="btn btn-primary" id="updateSaveBtn" data-bs-dismiss="modal">保存</button>
                             </div>
                         </div>
                     </div>
@@ -82,11 +82,11 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                ...
+                                确定要删除选中数据吗？
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                <button type="button" class="btn btn-primary">删除</button>
+                                <button type="button" class="btn btn-primary"  id="deleteUserBtn" data-bs-dismiss="modal">删除</button>
                             </div>
                         </div>
                     </div>

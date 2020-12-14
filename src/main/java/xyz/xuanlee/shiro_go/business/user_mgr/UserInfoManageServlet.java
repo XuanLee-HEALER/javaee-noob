@@ -1,5 +1,7 @@
 package xyz.xuanlee.shiro_go.business.user_mgr;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import xyz.xuanlee.shiro_go.DO.OpResponseInfo;
 import xyz.xuanlee.shiro_go.constant.InteractInfo;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,8 +53,14 @@ public class UserInfoManageServlet extends HttpServlet {
                 case "updateDepartmentById":
                     doGetUpdateDepartmentById(req, resp);
                     break;
+                case "updateUserInfoByUsername":
+                    doPostUpdateUserInfoByUsername(req, resp);
+                    break;
                 case "deleteById":
-                    doGetDeleteByID(req, resp);
+                    doPostDeleteByID(req, resp);
+                    break;
+                case "deleteByUser":
+                    doPostDeleteByUsername(req, resp);
                     break;
                 default:
                     break;
@@ -176,7 +185,33 @@ public class UserInfoManageServlet extends HttpServlet {
         printWriter.println(json.toJSONString());
     }
 
-    private void doGetDeleteByID(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void doPostUpdateUserInfoByUsername(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        JSONObject json;
+
+        try {
+            req.setCharacterEncoding("UTF-8");
+            JSONObject reqData = CommonUtil.getPostRequestData(req.getReader());
+            String oldUsername = reqData.getString("oldUsername");
+            String newUsername = reqData.getString("newUsername");
+            String newPassword = reqData.getString("newPassword");
+
+            OpResponseInfo info = userManageService.modifyUserInfoByUsername(oldUsername, newUsername, newPassword);
+
+            json = CommonUtil.groupRespData(info.getInfoCode(), info.getInfo());
+        } catch (JSONException e) {
+            String code = "-4";
+            e.printStackTrace();
+            json = CommonUtil.groupRespData(code,
+                    String.format(InteractInfo.GENERAL_ERROR_INFO.get(code), "数字ID"));
+        }
+
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("json/application");
+        PrintWriter printWriter = resp.getWriter();
+        printWriter.println(json.toJSONString());
+    }
+
+    private void doPostDeleteByID(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         JSONObject json;
 
@@ -188,6 +223,32 @@ public class UserInfoManageServlet extends HttpServlet {
             json = CommonUtil.groupRespData(info.getInfoCode(), info.getInfo());
         } catch (NumberFormatException e) {
             String code = "-3";
+            e.printStackTrace();
+            json = CommonUtil.groupRespData(code,
+                    String.format(InteractInfo.GENERAL_ERROR_INFO.get(code), "数字ID"));
+        }
+
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("json/application");
+        PrintWriter printWriter = resp.getWriter();
+        printWriter.println(json.toJSONString());
+    }
+
+    private void doPostDeleteByUsername(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        JSONObject json;
+
+        try {
+            req.setCharacterEncoding("UTF-8");
+            JSONObject reqData = CommonUtil.getPostRequestData(req.getReader());
+            JSONArray tmpArr = reqData.getJSONArray("usernames");
+            String[] users = new String[tmpArr.toArray().length];
+            tmpArr.toArray(users);
+
+            OpResponseInfo info = userManageService.deleteUserByUsername(users);
+
+            json = CommonUtil.groupRespData(info.getInfoCode(), info.getInfo());
+        } catch (JSONException e) {
+            String code = "-4";
             e.printStackTrace();
             json = CommonUtil.groupRespData(code,
                     String.format(InteractInfo.GENERAL_ERROR_INFO.get(code), "数字ID"));

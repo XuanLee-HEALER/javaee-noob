@@ -30,8 +30,12 @@ public class UserSQL {
             "update t_user set u_name=? where id=?";
     public static final String UPDATE_USER_DEPARTMENT_ID_BY_ID =
             "update t_user set d_id=? where id=?";
+    public static final String UPDATE_USER_INFO_BY_USERNAME =
+            "update t_user set u_name=?,u_pswd=? where u_name=?";
     public static final String LOCK_USER =
             "update t_user set isLock='1' where u_name=?";
     public static final String DELTE_USER =
             "delete from t_user where id=cast(? as signed)";
+    public static final String DELTE_USER_BY_USERNAME =
+            "delete from t_user where u_name=?";
 }

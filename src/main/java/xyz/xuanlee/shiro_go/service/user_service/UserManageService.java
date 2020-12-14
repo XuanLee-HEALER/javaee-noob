@@ -46,6 +46,14 @@ public interface UserManageService {
     OpResponseInfo modifyUsernameById(Long id, String newUsername);
 
     /**
+     * 根据用户名来修改用户名和密码
+     * @param username 旧用户名
+     * @param newUsername 新用户名
+     * @param newPassword 新密码
+     * @return OpResponseInfo 修改操作的结果
+     */
+    OpResponseInfo modifyUserInfoByUsername(String username, String newUsername, String newPassword);
+    /**
      * 根据用户的id来修改用户部门id
      * 登录后操作
      * @param id 用户id
@@ -61,4 +69,11 @@ public interface UserManageService {
      * @return OpResponseInfo 删除操作是否成功
      */
     OpResponseInfo deleteUserById(Long id);
+
+    /**
+     * 根据用户名删除对应的用户记录
+     * @param usernames 提供的用户名
+     * @return OpResponseInfo 删除操作的结果信息
+     */
+    OpResponseInfo deleteUserByUsername(String[] usernames);
 }

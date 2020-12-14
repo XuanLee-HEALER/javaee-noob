@@ -12,6 +12,7 @@ import xyz.xuanlee.shiro_go.util.CommonUtil;
 import xyz.xuanlee.shiro_go.util.JDBCUtil;
 
 import java.lang.reflect.Constructor;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -182,6 +183,19 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
+    public OpResponseInfo modifyUserInfoByUsername(String username, String newUsername, String newPassword) {
+        String code;
+
+        if (JDBCUtil.executeModifyStatement(UserSQL.UPDATE_USER_INFO_BY_USERNAME, newUsername, newPassword, username)) {
+            code = "1";
+            return new OpResponseInfo(code, InteractInfo.GENERAL_MODIFY_INFO.get(code));
+        } else {
+            code = "100";
+            return new OpResponseInfo(code, InteractInfo.MODIFY_INTERACT_INFO.get(code));
+        }
+    }
+
+    @Override
     public OpResponseInfo modifyUserDepartmentById(Long id, Long departmentId) {
         String code;
 
@@ -240,5 +254,36 @@ public class UserManageServiceImpl implements UserManageService {
             code = "100";
             return new OpResponseInfo(code, InteractInfo.MODIFY_INTERACT_INFO.get(code));
         }
+    }
+
+    @Override
+    public OpResponseInfo deleteUserByUsername(String[] usernames) {
+        String code;
+
+        try {
+            JDBCUtil.startTransaction();
+            for (String username: usernames) {
+                JDBCUtil.executeModifyStatement(UserSQL.DELTE_USER_BY_USERNAME, username);
+            }
+            JDBCUtil.commitTransaction();
+
+            code = "1";
+            return new OpResponseInfo(code, InteractInfo.GENERAL_MODIFY_INFO.get(code));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                JDBCUtil.rollBackTransaction();
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
+            }
+        } finally {
+            try {
+                JDBCUtil.endTransaction();
+            } catch (SQLException throwable) {
+                throwable.printStackTrace();
+            }
+        }
+        code = "100";
+        return new OpResponseInfo(code, InteractInfo.MODIFY_INTERACT_INFO.get(code));
     }
 }
